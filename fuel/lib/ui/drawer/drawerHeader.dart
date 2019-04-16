@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeaderVersion extends StatelessWidget {
   @override
@@ -20,7 +19,14 @@ class HeaderVersion extends StatelessWidget {
                 ),
                 Text(
                   "Fuel Prices",
-                  style: TextStyle(color: Colors.white,fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  "Version : 0.0.1",
+                  style: TextStyle(color: Colors.white, fontSize: 10),
                 )
               ],
             ),

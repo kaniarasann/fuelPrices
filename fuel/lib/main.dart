@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:fuel/ui/drawer/drawerHeader.dart';
+import 'package:fuel/ui/search/search.dart';
 
 void main() => runApp(MaterialApp(
       title: 'Fuel Price',
       theme: ThemeData(primarySwatch: Colors.green),
       initialRoute: '/',
-      routes: {'/': (context) => Dashboard()},
+      routes: {'/': (context) => Dashboard(), '/search': (context) => Search()},
     ));
 
 class Dashboard extends StatelessWidget {
@@ -27,19 +28,21 @@ class Dashboard extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
-            Text(
-              formatDate(DateTime.now(), [M, ' ', d, ', ', yyyy]),
-              textAlign: TextAlign.left,
-              style: TextStyle(fontWeight: FontWeight.w200)
-            )
+            Text(formatDate(DateTime.now(), [M, ' ', d, ', ', yyyy]),
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.w200))
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () => Navigator.of(context).pushNamed("/search"),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
-          children: <Widget>[
-            HeaderVersion()
-          ],
+          children: <Widget>[HeaderVersion()],
         ),
       ),
     );
