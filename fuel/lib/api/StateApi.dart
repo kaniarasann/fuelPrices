@@ -12,7 +12,7 @@ class StateApi {
         });
     if (response.statusCode == 200) {
       List result = json.decode(response.body);
-      return result.map((i) => StateModel.fromJson(i)).toList();
+      return (result.map((i) => StateModel.fromJson(i)).toList());
     }
   }
 }
