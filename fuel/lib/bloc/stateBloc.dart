@@ -12,11 +12,27 @@ class StateBloc {
     return state.stream;
   }
 
+  SharedPreferences prefs;
   void _getAllAvailableState() async {
     if (_state == null) {
       _state = await StateApi().getState();
     }
+    await _getPersistedValue();
     _searchText();
+  }
+
+  Future _getPersistedValue() async {
+    if (prefs == null) {
+      prefs = await SharedPreferences.getInstance();
+    }
+    var persistedData = await prefs.getStringList("fuel_state");
+    persistedData.forEach((prs) => {
+          _state.forEach((f) {
+            if (f.stateCode == prs) {
+              f.isSelected = true;
+            }
+          })
+        });
   }
 
   void _searchText() {
@@ -41,7 +57,9 @@ class StateBloc {
   }
 
   Future selectedStateChkBox(val, id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs == null) {
+      prefs = await SharedPreferences.getInstance();
+    }
     List<String> stateCode = List<String>();
 
     _state.forEach((i) {
