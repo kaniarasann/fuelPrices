@@ -2,19 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:fuel/bloc/stateBloc.dart';
 import 'package:fuel/model/stateModel.dart';
 
-class Search extends StatelessWidget {
-  final stateBloc = StateBloc();
+class StateSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("Select"),
+          actions: <Widget>[
+            FlatButton(
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.navigate_next,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed("/searchCity");
+              },
+            )
+          ],
         ),
         body: Column(
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(left: 5, right: 5),
               child: TextField(
+                controller:
+                    TextEditingController(text: stateBloc.searchTextData ?? ""),
                 autofocus: true,
                 autocorrect: false,
                 decoration: InputDecoration(

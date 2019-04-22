@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:fuel/api/StateApi.dart';
 import 'package:fuel/model/stateModel.dart';
 import 'package:rxdart/rxdart.dart';
@@ -6,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StateBloc {
   final state = BehaviorSubject<List<StateModel>>();
   List<StateModel> _state;
-  String _searchTextData;
+  String searchTextData;
   Observable<List<StateModel>> getAllAvailableState() {
     _getAllAvailableState();
     return state.stream;
@@ -25,18 +26,21 @@ class StateBloc {
     if (prefs == null) {
       prefs = await SharedPreferences.getInstance();
     }
-    var persistedData = await prefs.getStringList("fuel_state");
-    persistedData.forEach((prs) => {
-          _state.forEach((f) {
-            if (f.stateCode == prs) {
-              f.isSelected = true;
-            }
-          })
-        });
+    var jsonData = prefs.getString("fuel_state");
+    if (jsonData != null) {
+      var persistedData = json.decode(jsonData);
+      persistedData.map((prs) => {
+            _state.forEach((f) {
+              if (f.stateCode == prs) {
+                f.isSelected = true;
+              }
+            })
+          });
+    }
   }
 
   void _searchText() {
-    var text = _searchTextData ?? "";
+    var text = searchTextData ?? "";
     if (text.length > 0) {
       var data = _state
           .where((i) => i.stateName.toLowerCase().contains(text))
@@ -52,25 +56,26 @@ class StateBloc {
   }
 
   void searchInState(String text) {
-    _searchTextData = text.toLowerCase();
+    searchTextData = text.toLowerCase();
     _searchText();
   }
 
+  List<StateModel> stateCode;
   Future selectedStateChkBox(val, id) async {
     if (prefs == null) {
       prefs = await SharedPreferences.getInstance();
     }
-    List<String> stateCode = List<String>();
+    stateCode = List<StateModel>();
 
     _state.forEach((i) {
       if (i.stateId == id) {
         i.isSelected = val;
         if (val) {
-          stateCode.add(i.stateCode);
+          stateCode.add(i);
         }
       }
     });
-    await prefs.setStringList('fuel_state', stateCode);
+    await prefs.setString('fuel_state', json.encode(stateCode));
     _searchText();
   }
 
@@ -78,3 +83,5 @@ class StateBloc {
     state.close();
   }
 }
+
+final stateBloc = StateBloc();

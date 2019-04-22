@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:fuel/ui/drawer/drawerHeader.dart';
-import 'package:fuel/ui/search/search.dart';
+import 'package:fuel/ui/search/citySearch.dart';
+import 'package:fuel/ui/search/stateSearch.dart';
 
 void main() => runApp(MaterialApp(
       title: 'Fuel Price',
       theme: ThemeData(primarySwatch: Colors.green),
       initialRoute: '/',
-      routes: {'/': (context) => Dashboard(), '/search': (context) => Search()},
+      routes: {
+        '/': (context) => Dashboard(),
+        '/search': (context) => StateSearch(),
+        '/searchCity':(context) => CitySearch()
+      },
     ));
 
 class Dashboard extends StatelessWidget {
