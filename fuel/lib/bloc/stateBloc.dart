@@ -75,8 +75,9 @@ class StateBloc {
         }
       }
     });
-    await prefs.setString('fuel_state', json.encode(stateCode));
+ 
     _searchText();
+    await prefs.setString('fuel_state', json.encode(stateCode));
   }
 
   void dispose() {

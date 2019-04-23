@@ -20,3 +20,5 @@ class CityBloc {
     city.sink.add(data);
   }
 }
+
+final cityBloc = CityBloc();

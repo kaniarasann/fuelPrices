@@ -12,8 +12,8 @@ class CityModel {
     return CityModel(
         townName: jsonData["townname"],
         stateId: Uuid().v4(),
-        diesel: jsonData["diesel"] as double,
-        petrol: jsonData["petrol"] as double,
-        isMetro: jsonData["ismetro"] as bool);
+        diesel: double.parse(jsonData["diesel"]),
+        petrol: double.parse(jsonData["petrol"]),
+        isMetro: jsonData["ismetro"].toString() == "N" ? false : true);
   }
 }
